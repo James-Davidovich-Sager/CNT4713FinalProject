@@ -1,0 +1,18 @@
+<!-- inspiration comes from https://stackoverflow.com/questions/60509538/how-do-i-stream-python-opencv-output-to-html-canvas-->
+<html>
+<head>
+    <title>Video Streaming </title>
+</head>
+<style>
+    .myCanvas{
+       background-image: url("{{ url_for('streamvid') }}");
+    }
+</style>
+<body>
+    <div>
+        <h1>Live Video Streaming </h1>
+        <img id="img" src = "{{ url_for('streamvid') }}">
+        <canvas class="myCanvas" height="600" width="480"></canvas>
+    </div>
+</body>
+</html>
