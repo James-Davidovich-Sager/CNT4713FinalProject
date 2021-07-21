@@ -10,6 +10,6 @@ cv~=1.0.0
 greenlet~=1.1.0
 itsdangerous~=2.0.1
 numpy~=1.21.0
-opencv-python~=4.5.3.56
+opencv-python-headless~=4.5.3.56
 pip~=21.1.3
 setuptools~=57.0.0
