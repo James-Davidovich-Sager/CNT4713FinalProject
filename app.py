@@ -3,8 +3,8 @@ import cv2
 
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(0)
-
+if os.environ.get('WERKZEUG_RUN_MAIN') or Flask.debug is False:
+    camera = cv2.VideoCapture(0)
 
 @app.route('/', methods=['POST','GET'])
 def index():
@@ -33,7 +33,7 @@ def staticv():
 def gen():
         while True:
                 ret, image = camera.read()
-                if ret:
+                if image is not None:
                         cv2.imwrite('t.jpg', image)
                         yield (b'--frame\r\n'
                                b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
