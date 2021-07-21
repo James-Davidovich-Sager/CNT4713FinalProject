@@ -3,7 +3,7 @@ import cv2
 
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(-1,cv.CAP_V4L)
+camera = cv2.VideoCapture(-1)
 
 @app.route('/', methods=['POST','GET'])
 def index():
