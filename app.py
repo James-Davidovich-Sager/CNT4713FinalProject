@@ -35,10 +35,9 @@ def gen():
                 if not ret:
                         break
                 else:
-                        ret, buffer = cv2.imencode('.jpg', frame)
-                        frame = buffer.tobytes()
+                        cv2.imwrite('t.jpg', image)
                         yield (b'--frame\r\n'
-                               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                                b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
         camera.release()
 
 #inspiration from https://stackoverflow.com/questions/60509538/how-do-i-stream-python-opencv-output-to-html-canvas
