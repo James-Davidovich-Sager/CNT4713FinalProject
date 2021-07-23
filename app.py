@@ -1,18 +1,20 @@
 from flask import Flask, render_template, url_for, request, Response, redirect, flash
-import cv2
+from cv2 import cv2
+import numpy as np
 
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(-1)
+URL = "https://192.168.1.107:8080/video"
+
+camera = cv2.VideoCapture(URL)
 
 @app.route('/', methods=['POST','GET'])
 def index():
         if request.method == 'POST':
-                username = request.form['username']
                 password = request.form['password']
 
-                if username == 'user' and password == '123':
-                        return render_template('home.html')
+                if password == '123':
+                        return redirect('/home')
                 else:
                         return redirect('/')
 
@@ -35,17 +37,24 @@ def gen():
                 if not ret:
                         break
                 else:
-                        cv2.imwrite('t.jpg', image)
-                        yield (b'--frame\r\n'
-                                b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
+                        _, encodedImage = cv2.imencode('.jpg',image)
+                        yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
+                #q = cv2.waitKey(30)
+                #if q == ord("q"):
+                #        break
         camera.release()
 
 #inspiration from https://stackoverflow.com/questions/60509538/how-do-i-stream-python-opencv-output-to-html-canvas
 
+
+
+
 @app.route('/streamvid',methods=['POST','GET'])
-def stream():
-        return Response(gen(),
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
+def streamvid():
+        if request.method == 'GET':
+                return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+        else:
+                return render_template('streamvid.html')
 
 if __name__ == "__main__":
-        app.run(debug=False)
+        app.run(debug=True)
