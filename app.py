@@ -4,7 +4,7 @@ import numpy as np
 
 app = Flask(__name__)
 
-URL = "https://x.x.x.x:8080/video"
+URL = "http://cnt.dontexist.com:8080/video"
 
 camera = cv2.VideoCapture(URL)
 
